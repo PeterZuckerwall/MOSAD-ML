@@ -1,11 +1,11 @@
-from fastapi import FastAPI, HTTPException
-from app.api import forecast
+from fastapi import FastAPI
+from app.api import report, forecast
 
-app = FastAPI(title="MOSAD-ML Forecasting API")
+app = FastAPI(title="MOSAD-ML Prediction Service")
 
-# Include the forecast routes
+app.include_router(report.router)
 app.include_router(forecast.router)
 
 @app.get("/")
-def root():
+async def root():
     return {"message": "MOSAD-ML microservice is running!"}
