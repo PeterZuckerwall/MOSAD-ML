@@ -35,3 +35,13 @@ async def download_revenue_forecast():
         return FileResponse(path=file_path, filename="sales_revenue_forecast.csv", media_type='text/csv')
     else:
         return Response(content="Revenue forecast file not found.", status_code=404)
+
+@router.get("/tyres-json")
+async def get_tyre_forecast_json():
+    file_path = "data/forecasts/tyre_forecast.csv"
+    if os.path.exists(file_path):
+        df = pd.read_csv(file_path)
+        df_selected = df[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
+        return df_selected.to_dict(orient="records")
+    else:
+        return Response(content="Tyre forecast file not found.", status_code=404)
