@@ -1,17 +1,37 @@
 from fastapi import APIRouter
+from fastapi import Response
+from fastapi.responses import FileResponse
 from app.services.forecast_service import get_tyre_forecast_from_csv, get_tube_forecast_from_csv, get_revenue_forecast_from_csv
 from typing import List, Dict, Any
+import os
 
 router = APIRouter(prefix="/forecast", tags=["Forecast"])
 
-@router.get("/tyres", response_model=List[Dict[str, Any]])
-async def forecast_tyres():
-    return get_tyre_forecast_from_csv()
+@router.get("/download/tyre-forecast")
+async def download_tyre_forecast():
+    file_path = "data/forecasts/2020_September_tyre_forecast.csv"
+    if os.path.exists(file_path):
+        return FileResponse(path=file_path, filename="tyre_forecast.csv", media_type='text/csv')
+    else:
+        return Response(content="Tyre forecast file not found.", status_code=404)
 
-@router.get("/tubes", response_model=List[Dict[str, Any]])
-async def forecast_tubes():
-    return get_tube_forecast_from_csv()
+@router.get("/download/tube-forecast")
+async def download_tube_forecast():
+    file_path = "data/forecasts/2020_September_tube_forecast.csv"
+    if os.path.exists(file_path):
+        return FileResponse(path=file_path, filename="tube_forecast.csv", media_type='text/csv')
+    else:
+        return Response(content="Tube forecast file not found.", status_code=404)
+
 
 @router.get("/revenue", response_model=List[Dict[str, Any]])
 async def forecast_revenue():
     return get_revenue_forecast_from_csv()
+
+@router.get("/download/revenue-forecast")
+async def download_revenue_forecast():
+    file_path = "data/forecasts/2020_October_revenue_forecast.csv"
+    if os.path.exists(file_path):
+        return FileResponse(path=file_path, filename="sales_revenue_forecast.csv", media_type='text/csv')
+    else:
+        return Response(content="Revenue forecast file not found.", status_code=404)

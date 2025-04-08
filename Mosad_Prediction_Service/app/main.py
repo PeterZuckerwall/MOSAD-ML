@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from app.api import report, forecast
+from app.api import forecast
 
 app = FastAPI(title="MOSAD-ML Prediction Service")
 
-app.include_router(report.router)
+
 app.include_router(forecast.router)
 
 @app.get("/")
