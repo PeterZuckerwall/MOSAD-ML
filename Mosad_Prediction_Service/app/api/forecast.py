@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse
 from app.services.forecast_service import get_tyre_forecast_from_csv, get_tube_forecast_from_csv, get_revenue_forecast_from_csv
 from typing import List, Dict, Any
 import os
+import pandas as pd
 
 router = APIRouter(prefix="/forecast", tags=["Forecast"])
 
